@@ -1,5 +1,7 @@
 'use client';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useForm, type SubmitHandler } from 'react-hook-form';
+import { auth } from '../../config/firebase.ts';
 
 interface IFormInput {
   email: string;
@@ -7,7 +9,16 @@ interface IFormInput {
 }
 export default function Login() {
   const { register, handleSubmit } = useForm<IFormInput>();
-  const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data);
+
+  const handleSignIn: SubmitHandler<IFormInput> = async (data) => {
+    const { email, password } = data;
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      alert('Signed in successfully');
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <main>
@@ -15,7 +26,7 @@ export default function Login() {
         <article>
           <h1>Login Page</h1>
           <p>This is the Login Page of our application.</p>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(handleSignIn)}>
             <label>Email</label>
             <input
               placeholder="Enter email"
