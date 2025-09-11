@@ -1,7 +1,7 @@
 'use client';
 
 import s from './Header.module.sass';
-import { useEffect, useState, type JSX } from 'react';
+import { useState, type JSX } from 'react';
 import classNames from 'classnames';
 import { NavLink } from 'react-router';
 import { useAppState } from '../../redux/useAppSelector';

@@ -1,32 +1,24 @@
 'use client';
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { auth } from '../../config/firebase.ts';
-import { useAppState } from '../../redux/useAppSelector.ts';
 import { useActions } from '../../redux/useActions.ts';
+import { schema } from '../../yup/yupSignin.ts';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 interface IFormInput {
   email: string;
   password: string;
 }
-export default function signIn() {
-  const { register, handleSubmit } = useForm<IFormInput>();
-  const { isLogin } = useAppState();
-  const { login, logout } = useActions();
-
-  const handleSignIn: SubmitHandler<IFormInput> = async (data) => {
-    const { email, password } = data;
-    try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      login();
-      console.log('logged');
-    } catch (error) {
-      console.error(error);
-    }
-  };
+export default function SignIn() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IFormInput>({
+    resolver: yupResolver(schema),
+  });
+  const { login } = useActions();
 
   const handleLogin: SubmitHandler<IFormInput> = async (data) => {
     const { email, password } = data;
@@ -53,12 +45,14 @@ export default function signIn() {
               type="text"
               {...register('email')}
             />
+            <p>{errors.email?.message}</p>
             <label>Password</label>
             <input
               placeholder="enter password"
-              type="text"
+              type="password"
               {...register('password')}
             />
+            <p>{errors.password?.message}</p>
             <label>Submit</label>
             <input type="submit" />
           </form>
