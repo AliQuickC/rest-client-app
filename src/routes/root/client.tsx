@@ -5,9 +5,9 @@ import '@mantine/core/styles.css';
 import { MantineProvider } from '@mantine/core';
 import { theme } from '../../theme/theme';
 import { Footer } from '../../components/Footer/Footer';
-import { Header } from '../../components/Header/Header';
 import { Provider } from 'react-redux';
 import store from '../../redux/store';
+import { Header } from '../../components/Header/Header';
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
