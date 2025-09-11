@@ -1,5 +1,4 @@
 'use client';
-import './login.sass';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -13,7 +12,7 @@ interface IFormInput {
   email: string;
   password: string;
 }
-export default function Login() {
+export default function signIn() {
   const { register, handleSubmit } = useForm<IFormInput>();
   const { isLogin } = useAppState();
   const { login, logout } = useActions();
@@ -29,13 +28,25 @@ export default function Login() {
     }
   };
 
+  const handleLogin: SubmitHandler<IFormInput> = async (data) => {
+    const { email, password } = data;
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      login();
+      console.log('logged');
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <main>
       <div className="container">
         <article>
-          <h1>Login Page</h1>
-          <p>This is the Login Page of our application.</p>
-          <form onSubmit={handleSubmit(handleSignIn)} className="form">
+          <h1>Sign Page</h1>
+          <p>This is the sign Page of our application.</p>
+          <form onSubmit={handleSubmit(handleLogin)}>
+            <h1>ITS LOGIN IN</h1>
             <label>Email</label>
             <input
               placeholder="Enter email"
