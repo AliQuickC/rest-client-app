@@ -24,7 +24,7 @@ export function Header(): JSX.Element {
   const { login, logout } = useActions();
 
   return (
-    <Box pb={120}>
+    <Box pb={60}>
       <header className={classes.header}>
         <Group justify="space-between" h="100%">
           <Group h="100%" gap={0} visibleFrom="sm">

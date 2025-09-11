@@ -3,6 +3,7 @@
 import { isRouteErrorResponse, useRouteError } from 'react-router';
 import '@mantine/core/styles.css';
 import { MantineProvider } from '@mantine/core';
+import './styles.sass';
 import { theme } from '../../theme/theme';
 import { Footer } from '../../components/Footer/Footer';
 import { Provider } from 'react-redux';
@@ -26,9 +27,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <body>
         <Provider store={store}>
           <MantineProvider theme={theme}>
-            <Header />
-            {children}
-            <Footer />
+            <div className="app">
+              <Header />
+              {children}
+              <Footer />
+            </div>
           </MantineProvider>
         </Provider>
       </body>
