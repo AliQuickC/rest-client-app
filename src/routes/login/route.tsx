@@ -6,6 +6,11 @@ import { auth } from '../../config/firebase.ts';
 import { useActions } from '../../redux/useActions.ts';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schema } from '../../yup/yup.ts';
+import { useState } from 'react';
+import {
+  getPasswordStrength,
+  type passwordStrInterface,
+} from '../../components/passwordStr/passwordStr.ts';
 
 interface IFormInput {
   email: string;
@@ -21,7 +26,11 @@ export default function Login() {
     resolver: yupResolver(schema),
   });
   const { login } = useActions();
-
+  const [passwordStr, setPasswordStr] = useState<passwordStrInterface>({
+    score: 0,
+    level: 'empty',
+    color: 'red',
+  });
   const handleSignIn: SubmitHandler<IFormInput> = async (data) => {
     const { email, password } = data;
     try {
@@ -52,10 +61,38 @@ export default function Login() {
             <input
               placeholder="enter password"
               type="password"
-              {...register('password')}
+              {...register('password', {
+                onChange: (e) => {
+                  setPasswordStr(getPasswordStrength(e.target.value));
+                },
+              })}
               required
             />
             <p>{errors.password?.message}</p>
+            <div
+              className="strength-container"
+              style={{
+                width: `100px`,
+                height: '10px',
+              }}
+            >
+              <div
+                className="strength-bar"
+                style={{
+                  width: `100px`,
+                  height: '10px',
+                }}
+              >
+                <div
+                  className="strength-fill"
+                  style={{
+                    width: `${(passwordStr.score / 5) * 100}%`,
+                    height: '10px',
+                    backgroundColor: passwordStr.color,
+                  }}
+                ></div>
+              </div>
+            </div>
             <label>Confirm Password</label>
             <input
               placeholder="Confirm Password"
