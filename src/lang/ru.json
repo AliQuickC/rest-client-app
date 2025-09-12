@@ -1,0 +1,10 @@
+{
+  "app.signUpButton": "Регистрация",
+  "app.signInButton": "Войти",
+  "app.signOutButton": "Выход",
+  "app.navHome": "Главная",
+  "app.navRest": "Рест",
+  "app.navVariables": "Переменные",
+  "app.navHistory": "История",
+  "app.navHeading": "Навигация"
+}

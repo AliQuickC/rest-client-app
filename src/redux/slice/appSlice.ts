@@ -1,11 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import type { Lang } from '../../Types/Types';
 
 export type AppState = {
   isLogin: boolean;
+  locale: Lang;
 };
 
 export const initialState: AppState = {
   isLogin: false,
+  locale: 'en',
 };
 
 export const appSlice = createSlice({
@@ -17,6 +20,9 @@ export const appSlice = createSlice({
     },
     logout: (state: AppState) => {
       state.isLogin = false;
+    },
+    switchLanguage: (state: AppState, action: PayloadAction<Lang>) => {
+      state.locale = action.payload;
     },
   },
 });

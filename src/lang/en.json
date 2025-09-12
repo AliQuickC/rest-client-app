@@ -1,0 +1,10 @@
+{
+  "app.signUpButton": "SignUp",
+  "app.signInButton": "SignIn",
+  "app.signOutButton": "SignOut",
+  "app.navHome": "Home",
+  "app.navRest": "Rest",
+  "app.navVariables": "Variables",
+  "app.navHistory": "History",
+  "app.navHeading": "Navigation"
+}
