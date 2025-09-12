@@ -7,7 +7,7 @@ export function Footer(): JSX.Element {
   return (
     <Box pt="60" pb="20" w="100%">
       <footer className={classes.footer}>
-        <Group justify="space-around" align="center">
+        <Group justify="space-around" align="center" color="black">
           <Stack gap="0">
             <Anchor href="https://github.com/aliquickc">
               <Group>

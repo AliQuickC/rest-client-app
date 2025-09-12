@@ -1,7 +1,7 @@
 'use client';
 
 import classes from './Header.module.css';
-import { type JSX } from 'react';
+import { useEffect, useState, type JSX } from 'react';
 import { NavLink } from 'react-router';
 import { useAppState } from '../../redux/useAppSelector';
 import { useActions } from '../../redux/useActions';
@@ -16,6 +16,7 @@ import {
   ScrollArea,
   Select,
 } from '@mantine/core';
+import throttle from 'lodash/throttle';
 import { useDisclosure } from '@mantine/hooks';
 import type { Lang } from '../../Types/Types';
 
@@ -26,9 +27,24 @@ export function Header(): JSX.Element {
   const { isLogin } = useAppState();
   const { locale } = useAppState();
   const { login, logout, switchLanguage } = useActions();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = throttle(() => {
+      setScrolled((prev) => {
+        const scrollY = window.scrollY;
+        if (!prev && scrollY > 55) return true;
+        if (prev && scrollY < 45) return false;
+        return prev;
+      });
+    }, 50);
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [scrolled]);
 
   return (
-    <Box pb={60}>
+    <Box className={`${classes.headerBox} ${scrolled ? classes.scrolled : ''}`}>
       <header className={classes.header}>
         <Group justify="space-between" h="100%">
           <Group h="100%" gap={0} visibleFrom="sm">
