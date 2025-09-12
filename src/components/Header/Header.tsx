@@ -18,6 +18,7 @@ import {
 } from '@mantine/core';
 import throttle from 'lodash/throttle';
 import { useDisclosure } from '@mantine/hooks';
+import { ChevronDown } from 'lucide-react';
 import type { Lang } from '../../Types/Types';
 
 export function Header(): JSX.Element {
@@ -71,8 +72,14 @@ export function Header(): JSX.Element {
               value={locale}
               clearable={false}
               checkIconPosition="right"
-              onChange={(value) => switchLanguage(value as Lang)}
+              onChange={(value) => {
+                if (value) {
+                  switchLanguage(value as Lang);
+                }
+              }}
               w="70"
+              rightSection={<ChevronDown size={16} strokeWidth={1.5} />}
+              rightSectionWidth={30}
             />
             <Button
               variant="default"
@@ -99,10 +106,16 @@ export function Header(): JSX.Element {
               { value: 'en', label: 'en' },
               { value: 'ru', label: 'ru' },
             ]}
+            rightSection={<ChevronDown size={16} strokeWidth={1.5} />}
+            rightSectionWidth={30}
             value={locale}
             clearable={false}
             checkIconPosition="right"
-            onChange={(value) => switchLanguage(value as Lang)}
+            onChange={(value) => {
+              if (value) {
+                switchLanguage(value as Lang);
+              }
+            }}
             w="70"
             hiddenFrom="sm"
           />

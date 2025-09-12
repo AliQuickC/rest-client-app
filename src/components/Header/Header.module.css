@@ -7,7 +7,7 @@
 .headerBox {
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 10;
   background-color: white;
   box-shadow: none;
   transition: all 0.3s ease;
@@ -17,7 +17,6 @@
 }
 
 .scrolled {
-  height: 80px;
   padding-top: 0;
   background-color: #ccc6c6;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);

@@ -34,7 +34,9 @@ export function Footer(): JSX.Element {
               <Image
                 src="https://raw.githubusercontent.com/rolling-scopes-school/tasks/260b39cca721aa5c822ed2b026d6584a78948b0d/react/assets/rss-logo.svg"
                 alt="rs-logo"
-                w="xl"
+                width={40}
+                height={40}
+                fit="contain"
               />
             </Anchor>
           </Box>
