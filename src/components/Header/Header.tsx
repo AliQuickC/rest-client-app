@@ -1,19 +1,39 @@
 'use client';
 
 import s from './Header.module.sass';
-import { type JSX } from 'react';
+import { useState, type JSX } from 'react';
 import classNames from 'classnames';
 import { NavLink } from 'react-router';
 import { useAppState } from '../../redux/useAppSelector';
 import { useActions } from '../../redux/useActions';
 import { FormattedMessage } from 'react-intl';
+import { auth } from '../../config/firebase';
+import { signOut } from 'firebase/auth';
 
 export function Header(): JSX.Element {
   const headerStyles = classNames('header ', s.header);
   const headerContainerStyles = classNames('container ', s.headerContainer);
+  const [name, setName] = useState('unknown');
 
   const { isLogin } = useAppState();
   const { login, logout, switchLanguage } = useActions();
+
+  auth.onAuthStateChanged((user) => {
+    if (user) {
+      if (!isLogin) {
+        login();
+      }
+      setName(user?.email ? user.email : 'unknown');
+    } else {
+      setName('unknown');
+      logout();
+    }
+  });
+
+  const handleLogout = () => {
+    signOut(auth);
+    console.log('user signOut');
+  };
 
   return (
     <header className={headerStyles}>
@@ -33,11 +53,14 @@ export function Header(): JSX.Element {
               <NavLink to="/history">History</NavLink>
             </li>
             <li>
-              <NavLink to="/login">Sign In / Sign Up</NavLink>
+              <NavLink to="/login">Sign Up</NavLink>
+            </li>
+            <li>
+              <NavLink to="/signIn">Sign In</NavLink>
             </li>
           </ul>
+          <div>Logged as {name}</div>
         </nav>
-
         <label className={s.switch}>
           <input
             type="checkbox"
@@ -51,7 +74,7 @@ export function Header(): JSX.Element {
           <span className={s.switchButton}>en/ru</span>
         </label>
 
-        <button onClick={() => (isLogin ? logout() : login())}>
+        <button onClick={() => (isLogin ? handleLogout() : login())}>
           {isLogin ? (
             <FormattedMessage id="app.signOutButton" />
           ) : (
