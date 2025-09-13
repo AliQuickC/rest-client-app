@@ -12,6 +12,7 @@ import {
   type passwordStrInterface,
 } from '../../components/passwordStr/passwordStr.ts';
 import { useNavigate } from 'react-router';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 interface IFormInput {
   email: string;
@@ -19,7 +20,8 @@ interface IFormInput {
   confirmPassword: string;
 }
 export default function Login() {
-  let navigate = useNavigate();
+  const intl = useIntl();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -43,25 +45,43 @@ export default function Login() {
       console.error(error);
     }
   };
+  function getTranslate(key: string) {
+    return <FormattedMessage id={key} />;
+  }
 
   return (
     <main>
       <div className="container">
         <article>
-          <h1>Login Page</h1>
-          <p>This is the Login Page of our application.</p>
+          <h1>
+            <FormattedMessage id={'app.signUpHeader'} />
+          </h1>
+          <p>
+            <FormattedMessage id={'app.signUpDescription'} />
+          </p>
           <form onSubmit={handleSubmit(handleSignIn)} className="form">
-            <label>Email</label>
+            <label>
+              <FormattedMessage id={'app.email'} />
+            </label>
             <input
-              placeholder="Enter email"
+              placeholder={intl.formatMessage({ id: 'app.emailPlaceholder' })}
               type="text"
               {...register('email')}
               required
             />
-            <p>{errors.email?.message}</p>
-            <label>Password</label>
+            <p>
+              {' '}
+              {errors.email?.message
+                ? getTranslate(errors.email?.message)
+                : null}
+            </p>
+            <label>
+              <FormattedMessage id={'app.password'} />
+            </label>
             <input
-              placeholder="enter password"
+              placeholder={intl.formatMessage({
+                id: 'app.passwordPlaceholder',
+              })}
               type="password"
               {...register('password', {
                 onChange: (e) => {
@@ -70,7 +90,11 @@ export default function Login() {
               })}
               required
             />
-            <p>{errors.password?.message}</p>
+            <p>
+              {errors.password?.message
+                ? getTranslate(errors.password?.message)
+                : null}
+            </p>
             <div
               className="strength-container"
               style={{
@@ -95,15 +119,26 @@ export default function Login() {
                 ></div>
               </div>
             </div>
-            <label>Confirm Password</label>
+            <label>
+              <FormattedMessage id={'app.confirmPassword'} />
+            </label>
             <input
-              placeholder="Confirm Password"
+              placeholder={intl.formatMessage({
+                id: 'app.confirmPasswordPlaceholder',
+              })}
               type="password"
               {...register('confirmPassword')}
               required
             />
-            <p>{errors.confirmPassword?.message}</p>
-            <label>Submit</label>
+            <p>
+              {' '}
+              {errors.confirmPassword?.message
+                ? getTranslate(errors.confirmPassword?.message)
+                : null}
+            </p>
+            <label>
+              <FormattedMessage id="app.submit" />
+            </label>
             <input type="submit" />
           </form>
         </article>

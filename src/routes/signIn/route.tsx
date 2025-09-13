@@ -6,13 +6,14 @@ import { useActions } from '../../redux/useActions.ts';
 import { schema } from '../../yup/yupSignin.ts';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router';
+import { FormattedMessage } from 'react-intl';
 
 interface IFormInput {
   email: string;
   password: string;
 }
 export default function SignIn() {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -21,6 +22,10 @@ export default function SignIn() {
     resolver: yupResolver(schema),
   });
   const { login } = useActions();
+
+  function getTranslate(key: string) {
+    return <FormattedMessage id={key} />;
+  }
 
   const handleLogin: SubmitHandler<IFormInput> = async (data) => {
     const { email, password } = data;
@@ -37,25 +42,34 @@ export default function SignIn() {
     <main>
       <div className="container">
         <article>
-          <h1>Sign Page</h1>
-          <p>This is the sign Page of our application.</p>
+          <h1>
+            <FormattedMessage id="app.signInHeader" />
+          </h1>
+          <p>
+            <FormattedMessage id="app.signInDescription" />
+          </p>
           <form onSubmit={handleSubmit(handleLogin)}>
-            <h1>ITS LOGIN IN</h1>
-            <label>Email</label>
-            <input
-              placeholder="Enter email"
-              type="text"
-              {...register('email')}
-            />
-            <p>{errors.email?.message}</p>
-            <label>Password</label>
-            <input
-              placeholder="enter password"
-              type="password"
-              {...register('password')}
-            />
-            <p>{errors.password?.message}</p>
-            <label>Submit</label>
+            <label>
+              <FormattedMessage id="app.email" />
+            </label>
+            <input type="text" {...register('email')} />
+            <p>
+              {errors.email?.message
+                ? getTranslate(errors.email?.message)
+                : null}
+            </p>
+            <label>
+              <FormattedMessage id="app.password" />
+            </label>
+            <input type="password" {...register('password')} />
+            <p>
+              {errors.password?.message
+                ? getTranslate(errors.password?.message)
+                : null}
+            </p>
+            <label>
+              <FormattedMessage id="app.submit" />
+            </label>
             <input type="submit" />
           </form>
         </article>

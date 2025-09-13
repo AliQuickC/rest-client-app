@@ -1,5 +1,29 @@
 {
   "app.signUpButton": "Регистрация",
   "app.signInButton": "Войти",
-  "app.signOutButton": "Выход"
+  "app.signOutButton": "Выход",
+
+  "app.signInHeader": "Войти",
+  "app.signInDescription": "Эта страница для входа в аккаунт",
+  "app.email": "Почта",
+  "app.password": "Пароль",
+  "app.submit": "Отправить",
+  "app.emailPlaceholder": "Введите свою почту",
+  "app.passwordPlaceholder": "Введите пароль",
+  "app.confirmPassword": "Подтвердите пароль",
+  "app.confirmPasswordPlaceholder": "повторите пароль",
+
+  "app.signUpHeader": "Страница регистрации",
+  "app.signUpDescription": "Эта страница создана для регистрации",
+
+  "app.passwordRequire": "Пароль обязателен",
+  "app.emailRequire": "Почта обязательна",
+  "app.validEmail": "должна быть валидная почта",
+  "app.passwordLenght": "Пароль должен быть не менее 8 символов",
+  "app.passwordRequireNumber": "Пароль должен содержать цифру",
+  "app.passwordRequireLowercase": "Пароль должен содержать одну строчную букву",
+  "app.passwordRequireUppercase": "Пароль должен содержать одну заглавную букву",
+  "app.passwordRequireSpecial": "Пароль должен содержать один из специальных символов",
+  "app.passwordMustMatch": "Пароли должны совпадать",
+  "app.confirmPasswordRequired": "Подтверждение пароля обязательна"
 }
