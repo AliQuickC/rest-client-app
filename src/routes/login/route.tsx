@@ -11,6 +11,7 @@ import {
   getPasswordStrength,
   type passwordStrInterface,
 } from '../../components/passwordStr/passwordStr.ts';
+import { useNavigate } from 'react-router';
 
 interface IFormInput {
   email: string;
@@ -18,6 +19,7 @@ interface IFormInput {
   confirmPassword: string;
 }
 export default function Login() {
+  let navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -36,7 +38,7 @@ export default function Login() {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       login();
-      console.log('logged');
+      navigate('/');
     } catch (error) {
       console.error(error);
     }

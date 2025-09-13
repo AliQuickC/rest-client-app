@@ -5,12 +5,14 @@ import { auth } from '../../config/firebase.ts';
 import { useActions } from '../../redux/useActions.ts';
 import { schema } from '../../yup/yupSignin.ts';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useNavigate } from 'react-router';
 
 interface IFormInput {
   email: string;
   password: string;
 }
 export default function SignIn() {
+  let navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -25,7 +27,7 @@ export default function SignIn() {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       login();
-      console.log('logged');
+      navigate('/');
     } catch (error) {
       console.error(error);
     }
