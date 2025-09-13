@@ -12,17 +12,14 @@ import { routes } from './routes/config';
 
 function fetchServer(request: Request) {
   return matchRSCServerRequest({
-    // Provide the React Server touchpoints.
     createTemporaryReferenceSet,
     decodeAction,
     decodeFormState,
     decodeReply,
     loadServerAction,
-    // The incoming request.
     request,
-    // The app routes.
     routes: routes(),
-    // Encode the match with the React Server implementation.
+
     generateResponse(match, options) {
       return new Response(renderToReadableStream(match.payload, options), {
         status: match.statusCode,
@@ -33,7 +30,6 @@ function fetchServer(request: Request) {
 }
 
 export default async function handler(request: Request) {
-  // Import the generateHTML function from the client environment
   const ssr = await import.meta.viteRsc.loadModule<
     typeof import('./entry.ssr')
   >('ssr', 'index');

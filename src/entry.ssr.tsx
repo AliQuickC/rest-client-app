@@ -10,13 +10,9 @@ export async function generateHTML(
   fetchServer: (request: Request) => Promise<Response>
 ): Promise<Response> {
   return await routeRSCServerRequest({
-    // The incoming request.
     request,
-    // How to call the React Server.
     fetchServer,
-    // Provide the React Server touchpoints.
     createFromReadableStream,
-    // Render the router to HTML.
     async renderHTML(getPayload) {
       const payload = await getPayload();
       const formState =
@@ -29,7 +25,6 @@ export async function generateHTML(
         <RSCStaticRouter getPayload={getPayload} />,
         {
           bootstrapScriptContent,
-          // @ts-expect-error - no types for this yet
           formState,
         }
       );

@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import { NavLink } from 'react-router';
 import { useAppState } from '../../redux/useAppSelector';
 import { useActions } from '../../redux/useActions';
+import { FormattedMessage } from 'react-intl';
 import { auth } from '../../config/firebase';
 import { signOut } from 'firebase/auth';
 
@@ -15,7 +16,7 @@ export function Header(): JSX.Element {
   const [name, setName] = useState('unknown');
 
   const { isLogin } = useAppState();
-  const { login, logout } = useActions();
+  const { login, logout, switchLanguage } = useActions();
 
   auth.onAuthStateChanged((user) => {
     if (user) {
@@ -60,11 +61,29 @@ export function Header(): JSX.Element {
           </ul>
           <div>Logged as {name}</div>
         </nav>
-        {isLogin && (
-          <button onClick={() => (isLogin ? handleLogout() : login())}>
-            {'Sign out'}
-          </button>
-        )}
+        <label className={s.switch}>
+          <input
+            type="checkbox"
+            className={s.switchBox}
+            name=""
+            id=""
+            onChange={(event) => {
+              switchLanguage(event.target.checked);
+            }}
+          />
+          <span className={s.switchButton}>en/ru</span>
+        </label>
+
+        <button onClick={() => (isLogin ? handleLogout() : login())}>
+          {isLogin ? (
+            <FormattedMessage id="app.signOutButton" />
+          ) : (
+            <>
+              <FormattedMessage id="app.signUpButton" />/
+              <FormattedMessage id="app.signInButton" />
+            </>
+          )}
+        </button>
       </div>
     </header>
   );

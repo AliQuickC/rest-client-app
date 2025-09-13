@@ -14,7 +14,6 @@ import {
   type DataRouter,
 } from 'react-router';
 
-// Create and set the callServer function to support post-hydration server actions.
 setServerCallback(
   createCallServer({
     createFromReadableStream,
@@ -23,7 +22,6 @@ setServerCallback(
   })
 );
 
-// Get and decode the initial server payload
 createFromReadableStream<RSCServerPayload>(getRSCStream()).then((payload) => {
   startTransition(async () => {
     const formState =
@@ -38,7 +36,6 @@ createFromReadableStream<RSCServerPayload>(getRSCStream()).then((payload) => {
         />
       </StrictMode>,
       {
-        // @ts-expect-error - no types for this yet
         formState,
       }
     );

@@ -5,10 +5,25 @@ import { Footer } from '../../components/Footer/Footer';
 import { Header } from '../../components/Header/Header';
 import { Provider } from 'react-redux';
 import store from '../../redux/store';
+import messages_en from '../../lang/en.json';
+import messages_ru from '../../lang/ru.json';
+import { IntlProvider } from 'react-intl';
+import { useAppState } from '../../redux/useAppSelector';
 
-export function Layout({ children }: { children: React.ReactNode }) {
+const messages = {
+  en: messages_en,
+  ru: messages_ru,
+};
+
+type Props = {
+  children: React.ReactNode;
+};
+
+export function App(props: Props) {
+  const { locale } = useAppState();
+
   return (
-    <html lang="en">
+    <html lang={locale}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -18,15 +33,24 @@ export function Layout({ children }: { children: React.ReactNode }) {
           href="/ikar.ico"
         ></link>
         <link rel="icon" type="image/png" href="/ikar.png" />
+        <title>Postman</title>
       </head>
       <body>
-        <Provider store={store}>
+        <IntlProvider messages={messages[locale]} locale={locale}>
           <Header />
-          {children}
+          {props.children}
           <Footer />
-        </Provider>
+        </IntlProvider>
       </body>
     </html>
+  );
+}
+
+export function Layout({ children }: { children: React.ReactNode }) {
+  return (
+    <Provider store={store}>
+      <App>{children}</App>
+    </Provider>
   );
 }
 
