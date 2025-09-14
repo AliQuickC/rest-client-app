@@ -43,21 +43,31 @@ export function Header(): JSX.Element {
             <li>
               <NavLink to="/">Home</NavLink>
             </li>
-            <li>
-              <NavLink to="/rest">Rest</NavLink>
-            </li>
-            <li>
-              <NavLink to="/variables">Variables</NavLink>
-            </li>
-            <li>
-              <NavLink to="/history">History</NavLink>
-            </li>
-            <li>
-              <NavLink to="/login">Sign Up</NavLink>
-            </li>
-            <li>
-              <NavLink to="/signIn">Sign In</NavLink>
-            </li>
+            {isLogin && (
+              <li>
+                <NavLink to="/rest">Rest</NavLink>
+              </li>
+            )}
+            {isLogin && (
+              <li>
+                <NavLink to="/variables">Variables</NavLink>
+              </li>
+            )}
+            {isLogin && (
+              <li>
+                <NavLink to="/history">History</NavLink>
+              </li>
+            )}
+            {!isLogin && (
+              <li>
+                <NavLink to="/signUp">Sign Up</NavLink>
+              </li>
+            )}
+            {!isLogin && (
+              <li>
+                <NavLink to="/signIn">Sign In</NavLink>
+              </li>
+            )}
           </ul>
           <div>Logged as {name}</div>
         </nav>

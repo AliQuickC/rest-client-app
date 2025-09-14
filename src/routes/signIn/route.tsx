@@ -6,13 +6,14 @@ import { useActions } from '../../redux/useActions.ts';
 import { schema } from '../../yup/yupSignin.ts';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 interface IFormInput {
   email: string;
   password: string;
 }
 export default function SignIn() {
+  const intl = useIntl();
   const navigate = useNavigate();
   const {
     register,
@@ -45,32 +46,27 @@ export default function SignIn() {
           <h1>
             <FormattedMessage id="app.signInHeader" />
           </h1>
-          <p>
-            <FormattedMessage id="app.signInDescription" />
-          </p>
           <form onSubmit={handleSubmit(handleLogin)}>
-            <label>
+            <label htmlFor="email">
               <FormattedMessage id="app.email" />
             </label>
-            <input type="text" {...register('email')} />
-            <p>
-              {errors.email?.message
-                ? getTranslate(errors.email?.message)
-                : null}
-            </p>
-            <label>
+            <input type="text" {...register('email')} name="email" />
+            {errors.email?.message && (
+              <p>{getTranslate(errors.email.message)}</p>
+            )}
+            <label htmlFor="password">
               <FormattedMessage id="app.password" />
             </label>
-            <input type="password" {...register('password')} />
-            <p>
-              {errors.password?.message
-                ? getTranslate(errors.password?.message)
-                : null}
-            </p>
-            <label>
-              <FormattedMessage id="app.submit" />
-            </label>
-            <input type="submit" />
+            <input type="password" {...register('password')} name="password" />
+            {errors.password?.message && (
+              <p>{getTranslate(errors.password.message)}</p>
+            )}
+            <input
+              type="submit"
+              value={intl.formatMessage({
+                id: 'app.submit',
+              })}
+            />
           </form>
         </article>
       </div>

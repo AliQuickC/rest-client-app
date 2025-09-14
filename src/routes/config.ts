@@ -13,9 +13,9 @@ export function routes() {
           lazy: () => import('./home/route'),
         },
         {
-          id: 'login',
-          path: 'login',
-          lazy: () => import('./login/route'),
+          id: 'signUp',
+          path: 'signUp',
+          lazy: () => import('./signUp/route'),
         },
         {
           id: 'variables',

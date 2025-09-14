@@ -1,5 +1,5 @@
 'use client';
-import './login.sass';
+import './signUp.sass';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { auth } from '../../config/firebase.ts';
@@ -19,7 +19,7 @@ interface IFormInput {
   password: string;
   confirmPassword: string;
 }
-export default function Login() {
+export default function SignUp() {
   const intl = useIntl();
   const navigate = useNavigate();
   const {
@@ -56,11 +56,8 @@ export default function Login() {
           <h1>
             <FormattedMessage id={'app.signUpHeader'} />
           </h1>
-          <p>
-            <FormattedMessage id={'app.signUpDescription'} />
-          </p>
           <form onSubmit={handleSubmit(handleSignIn)} className="form">
-            <label>
+            <label htmlFor="email">
               <FormattedMessage id={'app.email'} />
             </label>
             <input
@@ -68,14 +65,12 @@ export default function Login() {
               type="text"
               {...register('email')}
               required
+              name="email"
             />
-            <p>
-              {' '}
-              {errors.email?.message
-                ? getTranslate(errors.email?.message)
-                : null}
-            </p>
-            <label>
+            {errors.email?.message && (
+              <p>{getTranslate(errors.email.message)}</p>
+            )}
+            <label htmlFor="password">
               <FormattedMessage id={'app.password'} />
             </label>
             <input
@@ -88,13 +83,12 @@ export default function Login() {
                   setPasswordStr(getPasswordStrength(e.target.value));
                 },
               })}
+              name="password"
               required
             />
-            <p>
-              {errors.password?.message
-                ? getTranslate(errors.password?.message)
-                : null}
-            </p>
+            {errors.password?.message && (
+              <p>{getTranslate(errors.password.message)}</p>
+            )}
             <div
               className="strength-container"
               style={{
@@ -119,7 +113,7 @@ export default function Login() {
                 ></div>
               </div>
             </div>
-            <label>
+            <label htmlFor="confirmPassword">
               <FormattedMessage id={'app.confirmPassword'} />
             </label>
             <input
@@ -129,17 +123,17 @@ export default function Login() {
               type="password"
               {...register('confirmPassword')}
               required
+              name="confirmPassword"
             />
-            <p>
-              {' '}
-              {errors.confirmPassword?.message
-                ? getTranslate(errors.confirmPassword?.message)
-                : null}
-            </p>
-            <label>
-              <FormattedMessage id="app.submit" />
-            </label>
-            <input type="submit" />
+            {errors.confirmPassword?.message && (
+              <p>{getTranslate(errors.confirmPassword.message)}</p>
+            )}
+            <input
+              type="submit"
+              value={intl.formatMessage({
+                id: 'app.submit',
+              })}
+            />
           </form>
         </article>
       </div>
