@@ -21,8 +21,8 @@ export const appSlice = createSlice({
     logout: (state: AppState) => {
       state.isLogin = false;
     },
-    switchLanguage: (state: AppState, action: PayloadAction<boolean>) => {
-      state.locale = action.payload ? 'ru' : 'en';
+    switchLanguage: (state: AppState, action: PayloadAction<Lang>) => {
+      state.locale = action.payload;
     },
   },
 });

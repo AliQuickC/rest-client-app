@@ -43,7 +43,7 @@ export default function Login() {
   };
 
   return (
-    <main>
+    <main style={{ flex: '1' }}>
       <div className="container">
         <article>
           <h1>Login Page</h1>

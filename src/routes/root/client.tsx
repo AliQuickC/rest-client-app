@@ -1,14 +1,17 @@
 'use client';
 
 import { isRouteErrorResponse, useRouteError } from 'react-router';
+import '@mantine/core/styles.css';
+import { MantineProvider } from '@mantine/core';
+import './styles.sass';
 import { Footer } from '../../components/Footer/Footer';
-import { Header } from '../../components/Header/Header';
 import { Provider } from 'react-redux';
 import store from '../../redux/store';
 import messages_en from '../../lang/en.json';
 import messages_ru from '../../lang/ru.json';
 import { IntlProvider } from 'react-intl';
 import { useAppState } from '../../redux/useAppSelector';
+import { Header } from '../../components/Header/Header';
 
 const messages = {
   en: messages_en,
@@ -37,9 +40,13 @@ export function App(props: Props) {
       </head>
       <body>
         <IntlProvider messages={messages[locale]} locale={locale}>
-          <Header />
-          {props.children}
-          <Footer />
+          <MantineProvider>
+            <div className="app">
+              <Header />
+              {props.children}
+              <Footer />
+            </div>
+          </MantineProvider>
         </IntlProvider>
       </body>
     </html>
