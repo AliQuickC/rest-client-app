@@ -32,6 +32,11 @@ export function routes() {
           path: 'rest',
           lazy: () => import('./rest/route'),
         },
+        {
+          id: 'signin',
+          path: 'signIn',
+          lazy: () => import('./signIn/route'),
+        },
       ],
     },
   ] satisfies RSCRouteConfig;

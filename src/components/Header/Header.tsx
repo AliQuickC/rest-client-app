@@ -1,7 +1,7 @@
 'use client';
 
 import classes from './Header.module.css';
-import { useEffect, useState, type JSX } from 'react';
+import { useState, useEffect, type JSX } from 'react';
 import { NavLink } from 'react-router';
 import { useAppState } from '../../redux/useAppSelector';
 import { useActions } from '../../redux/useActions';
@@ -20,11 +20,13 @@ import throttle from 'lodash/throttle';
 import { useDisclosure } from '@mantine/hooks';
 import { ChevronDown } from 'lucide-react';
 import type { Lang } from '../../Types/Types';
+import { auth } from '../../config/firebase';
+import { signOut } from 'firebase/auth';
 
 export function Header(): JSX.Element {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
-
+  const [name, setName] = useState('unknown');
   const { isLogin } = useAppState();
   const { locale } = useAppState();
   const { login, logout, switchLanguage } = useActions();
@@ -43,6 +45,23 @@ export function Header(): JSX.Element {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [scrolled]);
+
+  auth.onAuthStateChanged((user) => {
+    if (user) {
+      if (!isLogin) {
+        login();
+      }
+      setName(user?.email ? user.email : 'unknown');
+    } else {
+      setName('unknown');
+      logout();
+    }
+  });
+
+  const handleLogout = () => {
+    signOut(auth);
+    console.log('user signOut');
+  };
 
   return (
     <Box className={`${classes.headerBox} ${scrolled ? classes.scrolled : ''}`}>
@@ -83,17 +102,22 @@ export function Header(): JSX.Element {
             />
             <Button
               variant="default"
-              onClick={() => (isLogin ? logout() : login())}
+              onClick={() => (isLogin ? handleLogout() : login())}
             >
-              {isLogin ? (
-                <FormattedMessage id="app.signOutButton" />
-              ) : (
-                <FormattedMessage id="app.signInButton" />
-              )}
+              <NavLink to="/signIn">
+                {isLogin ? (
+                  <FormattedMessage id="app.signOutButton" />
+                ) : (
+                  <FormattedMessage id="app.signInButton" />
+                )}
+              </NavLink>
             </Button>
             <Button>
-              <FormattedMessage id="app.signUpButton" />
+              <NavLink to="/login">
+                <FormattedMessage id="app.signUpButton" />
+              </NavLink>
             </Button>
+            <div>Logged as {name}</div>
           </Group>
 
           <Burger
@@ -121,7 +145,6 @@ export function Header(): JSX.Element {
           />
         </Group>
       </header>
-
       <Drawer
         opened={drawerOpened}
         onClose={closeDrawer}
@@ -151,17 +174,22 @@ export function Header(): JSX.Element {
           <Group justify="center" grow pb="xl" px="md">
             <Button
               variant="default"
-              onClick={() => (isLogin ? logout() : login())}
+              onClick={() => (isLogin ? handleLogout() : login())}
             >
-              {isLogin ? (
-                <FormattedMessage id="app.signOutButton" />
-              ) : (
-                <FormattedMessage id="app.signInButton" />
-              )}
+              <NavLink to="/signIn">
+                {isLogin ? (
+                  <FormattedMessage id="app.signOutButton" />
+                ) : (
+                  <FormattedMessage id="app.signInButton" />
+                )}
+              </NavLink>
             </Button>
             <Button>
-              <FormattedMessage id="app.signUpButton" />
+              <NavLink to="/login">
+                <FormattedMessage id="app.signUpButton" />
+              </NavLink>
             </Button>
+            <div>Logged as {name}</div>
           </Group>
         </ScrollArea>
       </Drawer>
