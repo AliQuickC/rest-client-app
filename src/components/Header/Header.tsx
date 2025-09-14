@@ -12,6 +12,7 @@ import {
   Button,
   Divider,
   Drawer,
+  Flex,
   Group,
   ScrollArea,
   Select,
@@ -22,6 +23,7 @@ import { ChevronDown } from 'lucide-react';
 import type { Lang } from '../../Types/Types';
 import { auth } from '../../config/firebase';
 import { signOut } from 'firebase/auth';
+import { IconUserCircle } from '@tabler/icons-react';
 
 export function Header(): JSX.Element {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
@@ -104,7 +106,10 @@ export function Header(): JSX.Element {
               variant="default"
               onClick={() => (isLogin ? handleLogout() : login())}
             >
-              <NavLink to="/signIn">
+              <NavLink
+                to="/signIn"
+                style={{ textDecoration: 'none', color: 'black' }}
+              >
                 {isLogin ? (
                   <FormattedMessage id="app.signOutButton" />
                 ) : (
@@ -112,12 +117,23 @@ export function Header(): JSX.Element {
                 )}
               </NavLink>
             </Button>
-            <Button>
-              <NavLink to="/login">
-                <FormattedMessage id="app.signUpButton" />
-              </NavLink>
-            </Button>
-            <div>Logged as {name}</div>
+            {!isLogin && (
+              <Button>
+                <NavLink
+                  to="/login"
+                  style={{ textDecoration: 'none', color: 'black' }}
+                >
+                  <FormattedMessage id="app.signUpButton" />
+                </NavLink>
+              </Button>
+            )}
+            {isLogin && (
+              <Flex>
+                {' '}
+                <IconUserCircle />
+                {name}
+              </Flex>
+            )}
           </Group>
 
           <Burger
@@ -125,24 +141,33 @@ export function Header(): JSX.Element {
             onClick={toggleDrawer}
             hiddenFrom="sm"
           />
-          <Select
-            data={[
-              { value: 'en', label: 'en' },
-              { value: 'ru', label: 'ru' },
-            ]}
-            rightSection={<ChevronDown size={16} strokeWidth={1.5} />}
-            rightSectionWidth={30}
-            value={locale}
-            clearable={false}
-            checkIconPosition="right"
-            onChange={(value) => {
-              if (value) {
-                switchLanguage(value as Lang);
-              }
-            }}
-            w="70"
-            hiddenFrom="sm"
-          />
+          <Group hiddenFrom="sm">
+            <Select
+              data={[
+                { value: 'en', label: 'en' },
+                { value: 'ru', label: 'ru' },
+              ]}
+              rightSection={<ChevronDown size={16} strokeWidth={1.5} />}
+              rightSectionWidth={30}
+              value={locale}
+              clearable={false}
+              checkIconPosition="right"
+              onChange={(value) => {
+                if (value) {
+                  switchLanguage(value as Lang);
+                }
+              }}
+              w="70"
+              hiddenFrom="sm"
+            />
+            {isLogin && (
+              <Flex>
+                {' '}
+                <IconUserCircle />
+                {name}
+              </Flex>
+            )}
+          </Group>
         </Group>
       </header>
       <Drawer
@@ -156,16 +181,20 @@ export function Header(): JSX.Element {
       >
         <ScrollArea h="calc(100vh - 80px" mx="-md">
           <Divider my="sm" />
-          <NavLink to="/" className={classes.link}>
+          <NavLink to="/" className={classes.link} onClick={closeDrawer}>
             <FormattedMessage id="app.navHome" />
           </NavLink>
-          <NavLink to="/rest" className={classes.link}>
+          <NavLink to="/rest" className={classes.link} onClick={closeDrawer}>
             <FormattedMessage id="app.navRest" />
           </NavLink>
-          <NavLink to="/variables" className={classes.link}>
+          <NavLink
+            to="/variables"
+            className={classes.link}
+            onClick={closeDrawer}
+          >
             <FormattedMessage id="app.navVariables" />
           </NavLink>
-          <NavLink to="/history" className={classes.link}>
+          <NavLink to="/history" className={classes.link} onClick={closeDrawer}>
             <FormattedMessage id="app.navHistory" />
           </NavLink>
 
@@ -174,9 +203,19 @@ export function Header(): JSX.Element {
           <Group justify="center" grow pb="xl" px="md">
             <Button
               variant="default"
-              onClick={() => (isLogin ? handleLogout() : login())}
+              onClick={() => {
+                if (isLogin) {
+                  handleLogout();
+                } else {
+                  login();
+                }
+                closeDrawer();
+              }}
             >
-              <NavLink to="/signIn">
+              <NavLink
+                to="/signIn"
+                style={{ textDecoration: 'none', color: 'black' }}
+              >
                 {isLogin ? (
                   <FormattedMessage id="app.signOutButton" />
                 ) : (
@@ -184,12 +223,16 @@ export function Header(): JSX.Element {
                 )}
               </NavLink>
             </Button>
-            <Button>
-              <NavLink to="/login">
-                <FormattedMessage id="app.signUpButton" />
-              </NavLink>
-            </Button>
-            <div>Logged as {name}</div>
+            {!isLogin && (
+              <Button onClick={closeDrawer}>
+                <NavLink
+                  to="/login"
+                  style={{ textDecoration: 'none', color: 'black' }}
+                >
+                  <FormattedMessage id="app.signUpButton" />
+                </NavLink>
+              </Button>
+            )}
           </Group>
         </ScrollArea>
       </Drawer>
