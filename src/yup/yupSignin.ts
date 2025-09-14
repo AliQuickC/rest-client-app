@@ -9,5 +9,5 @@ export const schema = yup.object().shape({
     .matches(/[0-9]/, 'app.passwordRequireNumber')
     .matches(/[a-z]/, 'app.passwordRequireLowercase')
     .matches(/[A-Z]/, 'app.passwordRequireUppercase')
-    .matches(/[!@#$%^&*(),.?":{}|<>]/, 'app.passwordRequireSpecial'),
+    .matches(/[!@#$%^&*(),.?":{}|<>+=]/, 'app.passwordRequireSpecial'),
 });
