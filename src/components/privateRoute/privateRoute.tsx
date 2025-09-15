@@ -1,21 +1,15 @@
 'use client';
-import { Navigate, useLocation } from 'react-router';
-import { useAuthUser } from '../../util/checkLogin';
+import { Navigate } from 'react-router';
+import { auth } from '../../config/firebase';
 
 export default function PrivateRoute({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const loginUser = useAuthUser();
-  const location = useLocation();
-
-  if (loginUser === undefined) {
-    return <div>Загрузка...</div>;
+  if (!auth.currentUser) {
+    return <Navigate to="/" replace />;
   }
 
-  if (loginUser === null) {
-    return <Navigate to="/" state={{ from: location }} replace />;
-  }
   return <>{children}</>;
 }
