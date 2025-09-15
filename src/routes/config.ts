@@ -1,4 +1,4 @@
-import type { unstable_RSCRouteConfig as RSCRouteConfig } from 'react-router';
+import { type unstable_RSCRouteConfig as RSCRouteConfig } from 'react-router';
 
 export function routes() {
   return [
