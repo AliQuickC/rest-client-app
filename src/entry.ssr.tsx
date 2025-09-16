@@ -1,4 +1,5 @@
 import { createFromReadableStream } from '@vitejs/plugin-rsc/ssr';
+import type { ReactFormState } from 'react-dom/client';
 import { renderToReadableStream as renderHTMLToReadableStream } from 'react-dom/server.edge';
 import {
   unstable_routeRSCServerRequest as routeRSCServerRequest,
@@ -16,7 +17,9 @@ export async function generateHTML(
     async renderHTML(getPayload) {
       const payload = await getPayload();
       const formState =
-        payload.type === 'render' ? await payload.formState : undefined;
+        payload.type === 'render' && payload.formState != null
+          ? ((await payload.formState) as ReactFormState)
+          : undefined;
 
       const bootstrapScriptContent =
         await import.meta.viteRsc.loadBootstrapScriptContent('index');
