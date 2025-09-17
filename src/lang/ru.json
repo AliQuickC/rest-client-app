@@ -1,5 +1,14 @@
 {
   "app.signUpButton": "Регистрация",
   "app.signInButton": "Войти",
-  "app.signOutButton": "Выход"
+  "app.signOutButton": "Выход",
+  "app.phFormDataKey": "Ключ",
+  "app.phFormDataValue": "Значение",
+  "app.FormDataValueRemoveBtn": "Удалить",
+  "app.FormDataValueAddRowBtn": "Добавить",
+  "app.BodyEditorSelectNone": "Нет",
+  "app.BodyEditorSelectRow": "JSON",
+  "app.BodyEditorSelectFormData": "Данные формы",
+  "app.phBodyEditorRow": "Введите JSON ...",
+  "app.ErrorJSONParse": "Некорректный формат JSON"
 }

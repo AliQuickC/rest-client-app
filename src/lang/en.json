@@ -1,5 +1,14 @@
 {
   "app.signUpButton": "SignUp",
   "app.signInButton": "SignIn",
-  "app.signOutButton": "SignOut"
+  "app.signOutButton": "SignOut",
+  "app.phFormDataKey": "Key",
+  "app.phFormDataValue": "Value",
+  "app.FormDataValueRemoveBtn": "Remove",
+  "app.FormDataValueAddRowBtn": "Add",
+  "app.BodyEditorSelectNone": "None",
+  "app.BodyEditorSelectRow": "Row (JSON)",
+  "app.BodyEditorSelectFormData": "Data Form",
+  "app.phBodyEditorRow": "Input JSON ...",
+  "app.ErrorJSONParse": "Invalid JSON"
 }

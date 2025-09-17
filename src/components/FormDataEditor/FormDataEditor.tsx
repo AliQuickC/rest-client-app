@@ -1,6 +1,7 @@
 'use client';
 
 import type { FormDataItem } from '../../Types/Types';
+import { useIntl } from 'react-intl';
 
 interface FormDataEditorProps {
   value: FormDataItem[];
@@ -13,6 +14,8 @@ export default function FormDataEditor({
   onChange,
   readOnly = false,
 }: FormDataEditorProps) {
+  const intl = useIntl();
+
   const handleKeyChange = (index: number, key: string) => {
     const newValue = [...value];
     newValue[index] = { ...newValue[index], key };
@@ -44,22 +47,26 @@ export default function FormDataEditor({
         >
           <input
             type="text"
-            placeholder="Key"
+            placeholder={intl.formatMessage({ id: 'app.phFormDataKey' })}
             readOnly={readOnly}
             value={item.key}
             onChange={(e) => handleKeyChange(index, e.target.value)}
           />
           <input
             type="text"
-            placeholder="Value"
+            placeholder={intl.formatMessage({ id: 'app.phFormDataValue' })}
             readOnly={readOnly}
             value={item.value}
             onChange={(e) => handleValueChange(index, e.target.value)}
           />
-          <button onClick={() => handleRemoveRow(index)}>Remove</button>
+          <button onClick={() => handleRemoveRow(index)}>
+            {intl.formatMessage({ id: 'app.FormDataValueRemoveBtn' })}
+          </button>
         </div>
       ))}
-      <button onClick={handleAddRow}>Add row</button>
+      <button onClick={handleAddRow}>
+        {intl.formatMessage({ id: 'app.FormDataValueAddRowBtn' })}
+      </button>
     </div>
   );
 }

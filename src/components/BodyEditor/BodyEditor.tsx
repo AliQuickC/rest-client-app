@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
 import FormDataEditor from '../FormDataEditor/FormDataEditor';
 import type { BodyValue, FormDataItem } from '../../Types/Types';
 
@@ -21,6 +22,8 @@ export default function BodyEditor({
   const [bodyType, setBodyType] = useState<BodyType>('none');
   const [rawValue, setRawValue] = useState('');
   const [formDataValue, setFormDataValue] = useState<FormDataItem[]>([]);
+
+  const intl = useIntl();
 
   useEffect(() => {
     if (typeof value === 'string') {
@@ -65,9 +68,15 @@ export default function BodyEditor({
         value={bodyType}
         onChange={(e) => setBodyType(e.target.value as BodyType)}
       >
-        <option value="none">None</option>
-        <option value="raw">Raw(JSON)</option>
-        <option value="form-data">Form Data</option>
+        <option value="none">
+          {intl.formatMessage({ id: 'app.BodyEditorSelectNone' })}
+        </option>
+        <option value="raw">
+          {intl.formatMessage({ id: 'app.BodyEditorSelectRow' })}
+        </option>
+        <option value="form-data">
+          {intl.formatMessage({ id: 'app.BodyEditorSelectFormData' })}
+        </option>
       </select>
 
       {bodyType === 'raw' && (
@@ -75,7 +84,7 @@ export default function BodyEditor({
           value={rawValue}
           onChange={(e) => setRawValue(e.target.value)}
           readOnly={readOnly}
-          placeholder="Input JSON .."
+          placeholder={intl.formatMessage({ id: 'app.phBodyEditorRow' })}
           style={{
             width: '100%',
             minHeight: '200px',
@@ -93,7 +102,11 @@ export default function BodyEditor({
         />
       )}
 
-      {error && !readOnly && <span style={{ color: 'red' }}>{error}</span>}
+      {error && !readOnly && (
+        <span style={{ color: 'red' }}>
+          {intl.formatMessage({ id: 'app.ErrorJSONParse' })}
+        </span>
+      )}
     </div>
   );
 }
