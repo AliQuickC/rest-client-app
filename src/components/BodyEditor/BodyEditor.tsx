@@ -43,7 +43,8 @@ export default function BodyEditor({
   useEffect(() => {
     if (bodyType === 'raw') {
       try {
-        JSON.parse(rawValue);
+        const parsedBody = JSON.parse(rawValue);
+        setRawValue(JSON.stringify(parsedBody, null, 2));
         setError(null);
         onChange(rawValue);
       } catch {
