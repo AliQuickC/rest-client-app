@@ -94,7 +94,7 @@ export default function Rest() {
     formData.append('url', urlWithoutVariables.value);
     formData.append('method', method);
     formData.append('headers', headersWithoutVariables.value);
-    if (body !== 'GET') {
+    if (method !== 'GET') {
       formData.append('body', bodyWithoutVariables.value);
     }
 
