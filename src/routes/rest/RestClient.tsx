@@ -11,8 +11,7 @@ import {
 } from 'react-router';
 import {
   base64UrlDecode,
-  base64UrlEncode,
-  headerParamsToURL,
+  getEncodeUrl,
   replaceVariables,
   urlSearchParamsToString,
 } from './utils';
@@ -20,6 +19,7 @@ import { initialState as responseInitial } from '../../redux/slice/responseSlice
 import { useActions } from '../../redux/useActions';
 import { ResponseInfo } from '../../components/ResponseInfo/ResponseInfo';
 import { useVariablesState } from '../../redux/useAppSelector';
+import type { RequestMethod } from '../../Types/Types';
 
 export default function Rest() {
   const { setResponse } = useActions();
@@ -45,7 +45,7 @@ export default function Rest() {
   const [searchParams] = useSearchParams();
 
   const [url, setUrl] = useState('https://www.swapi.tech/api/starships/');
-  const [method, setMethod] = useState('GET');
+  const [method, setMethod] = useState<RequestMethod>('GET');
   const [body, setBody] = useState(
     '{"title":"fakeTitle","userId":1,"body":"fakeMessage"}'
   );
@@ -109,28 +109,16 @@ export default function Rest() {
     if (keys.length === 0 || !params.method) {
       return;
     }
-    setMethod(params.method);
+    setMethod(params.method as RequestMethod);
     setUrl(base64UrlDecode(params?.encodedEndpoint || ''));
     setBody(base64UrlDecode(params?.encodedBody || ''));
     setHeaders(urlSearchParamsToString(searchParams.toString()));
   };
 
-  const getEncodeUrl = (): string => {
-    const encodedUrl = base64UrlEncode(replaceVariables(url, variables).value);
-
-    const encodeBody =
-      body && method !== 'GET'
-        ? '/' + base64UrlEncode(replaceVariables(body, variables).value)
-        : '';
-
-    const headersWithoutVariables = replaceVariables(headers, variables).value;
-
-    const str = `/rest/${method}/${encodedUrl}${encodeBody}${headerParamsToURL(headersWithoutVariables)}`;
-    return str;
-  };
-
   const handlerSetUrl = () => {
-    navigate(getEncodeUrl(), { replace: true });
+    navigate(getEncodeUrl(variables, method, url, body, headers), {
+      replace: true,
+    });
   };
 
   useEffect(() => {
@@ -175,7 +163,7 @@ export default function Rest() {
         responseSize,
         errorDetails,
         endpoint: actionData.endpoint ? String(actionData.endpoint) : 'N/A',
-        linkToRestClient: getEncodeUrl(),
+        linkToRestClient: getEncodeUrl(variables, method, url, body, headers),
       };
 
       const responseInfo = {
@@ -206,7 +194,7 @@ export default function Rest() {
                 name="method"
                 id="method"
                 value={method}
-                onChange={(e) => setMethod(e.target.value)}
+                onChange={(e) => setMethod(e.target.value as RequestMethod)}
               >
                 <option className={s.selectGet} value="GET">
                   GET

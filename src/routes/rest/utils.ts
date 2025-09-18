@@ -1,4 +1,5 @@
 import type { VariablesState } from '../../redux/slice/variablesSlice';
+import type { RequestMethod } from '../../Types/Types';
 
 type WithOutVariables = {
   value: string;
@@ -88,4 +89,29 @@ export function replaceVariables(
 ): WithOutVariables {
   const result = replaceTemplate(str, variables);
   return result;
+}
+
+export function getEncodeUrl(
+  variablesKit: VariablesState,
+  requestMethod: RequestMethod,
+  urlString: string,
+  requestbody: string = '',
+  requestHeaders: string = ''
+): string {
+  const encodedUrl = base64UrlEncode(
+    replaceVariables(urlString, variablesKit).value
+  );
+
+  const encodeBody =
+    requestbody && requestMethod !== 'GET'
+      ? '/' + base64UrlEncode(replaceVariables(requestbody, variablesKit).value)
+      : '';
+
+  const headersWithoutVariables = replaceVariables(
+    requestHeaders,
+    variablesKit
+  ).value;
+
+  const str = `/rest/${requestMethod}/${encodedUrl}${encodeBody}${headerParamsToURL(headersWithoutVariables)}`;
+  return str;
 }
