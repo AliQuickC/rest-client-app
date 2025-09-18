@@ -23,15 +23,18 @@ export function ResponseInfo() {
       </legend>
 
       <div className={s.responseInfo}>
-        <label htmlFor="">
+        <label htmlFor="response-code">
           <FormattedMessage id="restClient.responseCode" />
           {responseInfo ? (
-            <output className={getResponseCodeStyle(responseInfo.responseCode)}>
+            <output
+              className={getResponseCodeStyle(responseInfo.responseCode)}
+              id="response-code"
+            >
               {' '}
               {responseInfo.responseCode}
             </output>
           ) : (
-            ''
+            <output id="response-code"></output>
           )}
         </label>
 
@@ -55,13 +58,14 @@ export function ResponseInfo() {
       </div>
 
       <div className={s.responseDataItem}>
-        <label htmlFor="">
+        <label htmlFor="response-body">
           <FormattedMessage id="restClient.responseBodyTitle" />
         </label>
         <textarea
           className={s.jsonBody}
           value={responseInfo ? responseInfo?.data : ''}
           readOnly
+          id="response-body"
         />
       </div>
     </fieldset>

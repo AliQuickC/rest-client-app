@@ -42,8 +42,8 @@ export function Header(): JSX.Element {
           <input
             type="checkbox"
             className={s.switchBox}
-            name=""
-            id=""
+            name="lang"
+            id="lang"
             onChange={(event) => {
               switchLanguage(event.target.checked);
             }}

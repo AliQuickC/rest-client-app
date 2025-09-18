@@ -280,24 +280,26 @@ export default function Rest() {
 
           <div className={s.requestData}>
             <div className={s.requestDataItem}>
-              <label>
+              <label htmlFor="request-header">
                 <FormattedMessage id="restClient.requestHeaderTitle" />
               </label>
               <textarea
                 className={s.requestHeader}
                 value={headers}
                 onChange={(e) => setHeaders(e.target.value)}
+                id="request-header"
               />
             </div>
 
             <div className={s.requestDataItem}>
-              <label>
+              <label htmlFor="request-body">
                 <FormattedMessage id="restClient.requestBodyTitle" />
               </label>
               <textarea
                 className={s.jsonBody}
                 value={body}
                 onChange={(e) => setBody(e.target.value)}
+                id="request-body"
               />
             </div>
           </div>
