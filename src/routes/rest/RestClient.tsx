@@ -11,7 +11,10 @@ import {
 } from 'react-router';
 import {
   base64UrlDecode,
+  ERROR,
   getEncodeUrl,
+  INVALID_ENDPOINT_URL,
+  INVALID_REQUEST_BODY,
   replaceVariables,
   urlSearchParamsToString,
 } from './utils';
@@ -19,7 +22,7 @@ import { initialState as responseInitial } from '../../redux/slice/responseSlice
 import { useActions } from '../../redux/useActions';
 import { ResponseInfo } from '../../components/ResponseInfo/ResponseInfo';
 import { useVariablesState } from '../../redux/useAppSelector';
-import type { RequestMethod } from '../../Types/Types';
+import { RequestMethodEnum, type RequestMethod } from '../../Types/Types';
 
 export default function Rest() {
   const { setResponse } = useActions();
@@ -109,9 +112,31 @@ export default function Rest() {
     if (keys.length === 0 || !params.method) {
       return;
     }
-    setMethod(params.method as RequestMethod);
-    setUrl(base64UrlDecode(params?.encodedEndpoint || ''));
-    setBody(base64UrlDecode(params?.encodedBody || ''));
+
+    const isCorrectMethodName = Object.prototype.hasOwnProperty.call(
+      RequestMethodEnum,
+      params.method
+    );
+    if (isCorrectMethodName) {
+      setMethod(params.method as RequestMethod);
+    } else {
+      setMethod(RequestMethodEnum.GET);
+    }
+
+    const decodedEndpointURL = base64UrlDecode(params?.encodedEndpoint || '');
+    if (decodedEndpointURL === ERROR) {
+      setUrl(INVALID_ENDPOINT_URL);
+    } else {
+      setUrl(decodedEndpointURL);
+    }
+
+    const decodedRequestBody = base64UrlDecode(params?.encodedBody || '');
+    if (decodedRequestBody === ERROR) {
+      setBody(INVALID_REQUEST_BODY);
+    } else {
+      setBody(decodedRequestBody);
+    }
+
     setHeaders(urlSearchParamsToString(searchParams.toString()));
   };
 

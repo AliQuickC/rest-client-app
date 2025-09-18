@@ -1,6 +1,12 @@
 import type { VariablesState } from '../../redux/slice/variablesSlice';
 import type { RequestMethod } from '../../Types/Types';
 
+export const ERROR = 'error';
+const CONVERTING_ERROR = 'Incorrect_Request_Header_In_JSON_String';
+export const INVALID_ENDPOINT_URL = `!!! Invalid endpoint URL was received from the browser !!!`;
+export const INVALID_REQUEST_BODY =
+  '{"error": "!!! Invalid request body was received from the browser !!!"}';
+
 type WithOutVariables = {
   value: string;
   isError: boolean;
@@ -11,8 +17,22 @@ export function headerParamsToURL(header: string): string {
   if (!header) {
     return '';
   }
-  const headerObject = JSON.parse(header);
-  const keys: string[] = Object.keys(headerObject);
+
+  let headerObject: object | typeof CONVERTING_ERROR;
+
+  try {
+    headerObject = JSON.parse(header);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (e) {
+    headerObject = CONVERTING_ERROR;
+  }
+  if (headerObject === CONVERTING_ERROR) {
+    return `?error=!!!${CONVERTING_ERROR}!!!`;
+  }
+
+  const keys: Array<keyof typeof headerObject> = Object.keys(
+    headerObject
+  ) as keyof typeof headerObject;
   if (keys.length === 0) {
     return '';
   }
@@ -28,7 +48,7 @@ export function urlSearchParamsToString(searchParams: string): string {
   const headerParams: { [key: string]: string } = new Object() as {
     [key: string]: string;
   };
-  const paramsArray = searchParams.split('&');
+  const paramsArray: string[] = searchParams.split('&');
 
   if (!searchParams || paramsArray.length === 0) {
     return '';
@@ -58,14 +78,34 @@ export function base64UrlDecode(str: string): string {
     base64 += '=';
   }
 
-  const decoded = atob(base64);
+  let decoded: string;
+  try {
+    decoded = atob(base64);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (e) {
+    decoded = ERROR;
+  }
+  if (decoded === ERROR) {
+    return ERROR;
+  }
 
-  return decodeURIComponent(
-    decoded
-      .split('')
-      .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-      .join('')
-  );
+  let decodedURL: string;
+  try {
+    decodedURL = decodeURIComponent(
+      decoded
+        .split('')
+        .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+        .join('')
+    );
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (e) {
+    decodedURL = ERROR;
+  }
+  if (decodedURL === ERROR) {
+    return ERROR;
+  }
+
+  return decodedURL;
 }
 
 function replaceTemplate(template: string, context: VariablesState) {

@@ -1,4 +1,5 @@
 export type Lang = 'en' | 'ru';
+
 export type RequestMethod =
   | 'GET'
   | 'POST'
@@ -7,3 +8,13 @@ export type RequestMethod =
   | 'DELETE'
   | 'HEAD'
   | 'OPTION';
+
+export const RequestMethodEnum: Record<RequestMethod, RequestMethod> = {
+  GET: 'GET',
+  POST: 'POST',
+  PUT: 'PUT',
+  PATCH: 'PATCH',
+  DELETE: 'DELETE',
+  HEAD: 'HEAD',
+  OPTION: 'OPTION',
+};
