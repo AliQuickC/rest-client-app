@@ -24,6 +24,7 @@ import { ResponseInfo } from '../../components/ResponseInfo/ResponseInfo';
 import { useVariablesState } from '../../redux/useAppSelector';
 import { RequestMethodEnum, type RequestMethod } from '../../Types/Types';
 import { FormattedMessage } from 'react-intl';
+import classNames from 'classnames';
 
 export default function Rest() {
   const { setResponse } = useActions();
@@ -208,9 +209,14 @@ export default function Rest() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [actionData]);
 
+  const restClientContainerStyles = classNames(
+    'container',
+    s.restClientContainer
+  );
+
   return (
     <main>
-      <div className="container">
+      <div className={restClientContainerStyles}>
         <fieldset className={s.requestClient}>
           <legend>
             <FormattedMessage id="restClient.client" />
