@@ -23,6 +23,7 @@ import { useActions } from '../../redux/useActions';
 import { ResponseInfo } from '../../components/ResponseInfo/ResponseInfo';
 import { useVariablesState } from '../../redux/useAppSelector';
 import { RequestMethodEnum, type RequestMethod } from '../../Types/Types';
+import { FormattedMessage } from 'react-intl';
 
 export default function Rest() {
   const { setResponse } = useActions();
@@ -169,10 +170,10 @@ export default function Rest() {
           : actionData.errorDetails.message || ''
         : 'N/A';
       const duration = actionData.duration
-        ? String(actionData.duration) + ' ms'
+        ? String(actionData.duration)
         : 'N/A';
       const responseSize = actionData.responseSize
-        ? String(actionData.responseSize) + ' kb'
+        ? String(actionData.responseSize)
         : 'N/A';
 
       const analitics = {
@@ -183,7 +184,7 @@ export default function Rest() {
           : 'N/A',
         method: actionData.method || 'N/A',
         requestSize: actionData.requestSize
-          ? String(actionData.requestSize) + ' kb'
+          ? String(actionData.requestSize)
           : 'N/A',
         responseSize,
         errorDetails,
@@ -211,7 +212,9 @@ export default function Rest() {
     <main>
       <div className="container">
         <fieldset className={s.requestClient}>
-          <legend>REST Client</legend>
+          <legend>
+            <FormattedMessage id="restClient.client" />
+          </legend>
           <div className={s.requestParamsWrap}>
             <div className={s.requestParams}>
               <select
@@ -261,7 +264,7 @@ export default function Rest() {
                 handleSubmit();
               }}
             >
-              Send
+              <FormattedMessage id="restClient.sendButton" />
             </button>
           </div>
 
@@ -271,7 +274,9 @@ export default function Rest() {
 
           <div className={s.requestData}>
             <div className={s.requestDataItem}>
-              <label>Request Header:</label>
+              <label>
+                <FormattedMessage id="restClient.requestHeaderTitle" />
+              </label>
               <textarea
                 className={s.requestHeader}
                 value={headers}
@@ -280,7 +285,9 @@ export default function Rest() {
             </div>
 
             <div className={s.requestDataItem}>
-              <label>Request Body:</label>
+              <label>
+                <FormattedMessage id="restClient.requestBodyTitle" />
+              </label>
               <textarea
                 className={s.jsonBody}
                 value={body}

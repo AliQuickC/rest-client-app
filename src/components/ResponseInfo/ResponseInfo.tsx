@@ -1,6 +1,7 @@
 import s from './ResponseInfo.module.sass';
 import classNames from 'classnames';
 import { useResponseState } from '../../redux/useAppSelector';
+import { FormattedMessage } from 'react-intl';
 
 function getResponseCodeStyle(code: number) {
   const codeFirstDigit = Math.round(code / 100);
@@ -17,11 +18,13 @@ export function ResponseInfo() {
 
   return (
     <fieldset className={s.response}>
-      <legend>Response</legend>
+      <legend>
+        <FormattedMessage id="restClient.responseTitle" />
+      </legend>
 
       <div className={s.responseInfo}>
         <label htmlFor="">
-          Code:
+          <FormattedMessage id="restClient.responseCode" />
           {responseInfo ? (
             <output className={getResponseCodeStyle(responseInfo.responseCode)}>
               {' '}
@@ -32,13 +35,29 @@ export function ResponseInfo() {
           )}
         </label>
 
-        {responseInfo ? <output>{responseInfo?.duration}</output> : ''}
+        {responseInfo ? (
+          <output>
+            {responseInfo?.duration}{' '}
+            <FormattedMessage id="restClient.responseMs" />
+          </output>
+        ) : (
+          ''
+        )}
 
-        {responseInfo ? <output>{responseInfo?.responseSize}</output> : ''}
+        {responseInfo ? (
+          <output>
+            {responseInfo?.responseSize}{' '}
+            <FormattedMessage id="restClient.responseKb" />
+          </output>
+        ) : (
+          ''
+        )}
       </div>
 
       <div className={s.responseDataItem}>
-        <label htmlFor="">Body:</label>
+        <label htmlFor="">
+          <FormattedMessage id="restClient.responseBodyTitle" />
+        </label>
         <textarea
           className={s.jsonBody}
           value={responseInfo ? responseInfo?.data : ''}

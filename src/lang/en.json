@@ -1,5 +1,15 @@
 {
   "app.signUpButton": "SignUp",
   "app.signInButton": "SignIn",
-  "app.signOutButton": "SignOut"
+  "app.signOutButton": "SignOut",
+
+  "restClient.client": "REST Client",
+  "restClient.sendButton": "Send",
+  "restClient.requestHeaderTitle": "Request Header:",
+  "restClient.requestBodyTitle": "Request Body:",
+  "restClient.responseTitle": "Response",
+  "restClient.responseCode": "Code:",
+  "restClient.responseBodyTitle": "Body:",
+  "restClient.responseMs": "ms",
+  "restClient.responseKb": "kb"
 }

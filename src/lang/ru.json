@@ -1,5 +1,15 @@
 {
   "app.signUpButton": "Регистрация",
   "app.signInButton": "Войти",
-  "app.signOutButton": "Выход"
+  "app.signOutButton": "Выход",
+
+  "restClient.client": "REST-Клиент",
+  "restClient.sendButton": "Отправить",
+  "restClient.requestHeaderTitle": "Заголовок запроса:",
+  "restClient.requestBodyTitle": "Тело запроса:",
+  "restClient.responseTitle": "Ответ",
+  "restClient.responseCode": "Код ответа:",
+  "restClient.responseBodyTitle": "Тело ответа:",
+  "restClient.responseMs": "мс",
+  "restClient.responseKb": "кб"
 }
