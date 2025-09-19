@@ -1,0 +1,62 @@
+.restClientContainer
+  display: flex
+  flex-direction: column
+  align-items: flex-start
+
+.requestClient
+  margin-bottom: 20px
+
+.requestClient, .response
+  padding: 20px
+
+.requestParamsWrap
+  margin-bottom: 5px
+  display: flex
+  column-gap: 20px
+
+.variablesError
+  color: red
+  font-size: 12px
+  font-weight: bold
+  margin-bottom: 20px
+
+.requestData
+  display: flex
+  gap: 20px
+  @media(max-width: 992px)
+    flex-direction: column
+
+.requestParams
+  display: flex
+
+.method
+  & option
+    font-weight: bold
+    background-color: grey
+
+.selectGet
+  color: #24e644
+.selectPost
+  color: #ffe550
+.selectPut
+  color: #2aa9f3
+.selectPatch
+  color: #b99af7
+.selectDelete
+  color: #E4A090
+.selectHead
+  color: #0caa26
+.selectOption
+  color: #D96CAF
+
+.url
+  width: 450px
+
+.requestDataItem
+  display: flex
+  flex-direction: column
+  gap: 4px
+
+.requestHeader, .jsonBody
+  width: 300px
+  min-height: 200px

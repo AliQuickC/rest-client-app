@@ -1,10 +1,12 @@
 import { useMemo } from 'react';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
-import { actions as formDatatateActions } from './slice/appSlice';
+import { actions as appActions } from './slice/appSlice';
+import { actions as responseActions } from './slice/responseSlice';
 
 const rootActions = {
-  ...formDatatateActions,
+  ...appActions,
+  ...responseActions,
 };
 
 export const useActions = () => {

@@ -27,9 +27,10 @@ export function routes() {
           path: 'history',
           lazy: () => import('./history/route'),
         },
+
         {
           id: 'rest',
-          path: 'rest',
+          path: 'rest/:method?/:encodedEndpoint?/:encodedBody?',
           lazy: () => import('./rest/route'),
         },
       ],

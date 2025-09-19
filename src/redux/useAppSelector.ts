@@ -11,3 +11,17 @@ export const useAppState = () => {
     locale,
   };
 };
+
+export const useResponseState = () => {
+  const { responseInfo, analitics } = useAppSelector(
+    (state) => state.responseState
+  );
+
+  return { responseInfo, analitics };
+};
+
+export const useVariablesState = () => {
+  const variables = useAppSelector((state) => state.variablesState);
+
+  return variables;
+};
